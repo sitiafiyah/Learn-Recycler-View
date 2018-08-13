@@ -17,11 +17,16 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.siti.asyst.learnrecyclerview.adapter.AlbumAdapter;
 import com.siti.asyst.learnrecyclerview.model.Album;
+import com.siti.asyst.learnrecyclerview.retrofit.ApiClient;
+import com.siti.asyst.learnrecyclerview.retrofit.ApiServices;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         recyclerView.setAdapter(albumAdapter);
-        getDataWithVolley();
+        //getDataWithVolley();
+        getDataWithRetrofit();
     }
 
     public void getDataWithVolley() {
@@ -89,5 +95,32 @@ public class MainActivity extends AppCompatActivity {
         });
 
         requestQueue.add(jsonArrayRequest);
+    }
+
+    public void getDataWithRetrofit() {
+        ApiServices apiServices = ApiClient.newInstance(getApplicationContext()).create(ApiServices.class);
+        Call<ArrayList<Album>> call = apiServices.getAlbums();
+
+        call.enqueue(new Callback<ArrayList<Album>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Album>> call, retrofit2.Response<ArrayList<Album>> response) {
+                //buat sukses
+                if (response.body() != null) {
+                    if (response.body().size() > 0) {
+
+                        listAlbum.addAll(response.body());
+                        albumAdapter.notifyDataSetChanged();
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Album>> call, Throwable t) {
+                //buat gagal
+                Toast.makeText(getApplicationContext(), "Get Data Error", Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+            }
+        });
     }
 }
