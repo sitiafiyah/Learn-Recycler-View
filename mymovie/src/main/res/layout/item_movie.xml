@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:id="@+id/cardView"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -30,7 +31,7 @@
             tools:text="Movie Title" />
 
         <TextView
-            android:id="@+id/releace_date_textview"
+            android:id="@+id/release_date_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/title_textview"
@@ -39,10 +40,10 @@
             tools:text="12 Maret 2018" />
 
         <TextView
-            android:id="@+id/artistname_textview"
+            android:id="@+id/overview_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/releace_date_textview"
+            android:layout_below="@id/release_date_textview"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
             android:layout_toRightOf="@id/image_imageview"
